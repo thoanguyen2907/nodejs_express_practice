@@ -1,29 +1,8 @@
 const { getList } = require("../services/student.services");
 
-let studentList = [
-    {
-        id: 1, 
-        fullName: "Thoa Nguyen", 
-        age: 25, 
-        numberClass: 10
-    }, 
-    {
-        id: 2, 
-        fullName: "Tâm Nguyen", 
-        age: 18, 
-        numberClass: 8
-    }, 
-    {
-        id: 3, 
-        fullName: "Truc Nguyen", 
-        age: 23, 
-        numberClass: 11
-    }
-]
 
-
-const getStudentList  = (req, res) => {
-    let studentList = getList(); 
+const getStudentList  = async (req, res) => {
+    let studentList = await getList(); 
     if(studentList) {
         res.status(200).send(studentList); 
     } else {
@@ -34,7 +13,7 @@ const getStudentList  = (req, res) => {
 
 const getStudentDetailById = async (req, res) => {
     let {id}  = await req.params; 
-    let student =  await   getDetail(id)
+    let student =  await getDetail(id)
     if(student){
         res.status(200).send(student)
     } else {
@@ -64,10 +43,9 @@ const updateStudent = async (req, res) => {
 }
 const deleteStudent =  async (req, res) => {    
     let {id} = await req.params; 
-    let index = studentList.findIndex(item => item.id == id); 
-    if(index !== -1) {
-    studentList.splice(index, -1);
-        res.status(200).send("Delete student: " + JSON.stringify(studentList[index]))
+    let deletedStudent = deleteById(id)
+    if(deletedStudent){
+        res.status(200).send("Delete student")
     } else {
         res.status(404).send("NOT FOUND")
     }

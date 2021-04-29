@@ -19,15 +19,15 @@ let studentList = [
     }
 ]
 
-const getList = () => {
+const getList =  () => {
     if(studentList) {
-        return studentList
+        return  studentList
     } else {
         return false; 
     }
 }
 
-const getDetail = async  (id) => {
+const getDetail = async (id) => {
     
     let student = await studentList.find(item => item.id == id); 
     if(student)  {
@@ -38,14 +38,14 @@ const getDetail = async  (id) => {
 
 }
 const create = async (student) => {
-    let  newStudent = {...student, id: Math.floor(Math.random()) * 100}
+    let  newStudent = await {...student, id: Math.floor(Math.random()) * 100}
     if(newStudent) {
         studentList = [...studentList, student];
 }
 return newStudent
 }
 const update = async (id, fullName, age, numberClass) => {
-    let index = studentList.findIndex(item => item.id == id); 
+    let index = await studentList.findIndex(item => item.id == id); 
     if(index !== -1) {
         let oldStudent = studentList[index]; 
         let updatedStudent = {...oldStudent,fullName, age, numberClass }; 
@@ -55,10 +55,21 @@ const update = async (id, fullName, age, numberClass) => {
         return false; 
     }
 }
+const deleteById = async (id) => {
+
+    let index = await studentList.findIndex(item => item.id == id); 
+    if(index !== -1) {
+        studentList.splice(index, -1);
+        return studentList[index]; 
+        } else {
+            return false; 
+        }
+}
 
 module.exports = {
     getList, 
     getDetail,
     create, 
-    update
+    update, 
+    deleteById
 }
