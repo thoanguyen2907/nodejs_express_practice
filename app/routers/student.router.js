@@ -1,28 +1,9 @@
 const express = require('express'); 
-const { getStudentList, getStudentDetailById, createNewStudent, updateStudent } = require('../controllers/student.controllers');
+const { getStudentList, getStudentDetailById, createNewStudent, updateStudent, deleteStudent } = require('../controllers/student.controllers');
+const { checkEmpty, checkNumberClass } = require('../middlewares/validations/student.validations');
 
 const studentRouter = express.Router(); 
 
-let studentList = [
-    {
-        id: 1, 
-        fullName: "Thoa Nguyen", 
-        age: 25, 
-        numberClass: 10
-    }, 
-    {
-        id: 2, 
-        fullName: "Tâm Nguyen", 
-        age: 18, 
-        numberClass: 8
-    }, 
-    {
-        id: 3, 
-        fullName: "Truc Nguyen", 
-        age: 23, 
-        numberClass: 11
-    }
-]
 
 studentRouter.get('/', getStudentList); 
   
@@ -30,7 +11,7 @@ studentRouter.get('/', getStudentList);
   studentRouter.get('/:id', getStudentDetailById);
   
   //thêm học sinh 
-  studentRouter.post('/', createNewStudent); 
+  studentRouter.post('/', checkEmpty, checkNumberClass, createNewStudent); 
   
     studentRouter.put('/:id', updateStudent); 
 
